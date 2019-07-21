@@ -112,4 +112,47 @@ int SlistPrint()
 }
 ```
 （3）向链表中插入结点:  
-
+在值为x的结点前插入y，如果x不存在则插在表尾  
+```
+int NodeInsert(Node *head, int x, int y)
+{
+  if(head == NULL)
+  {
+    return -1;
+  }
+  Node *pPre = head;
+  Node *pCur = head->next;
+  
+  while(pCur != NULL)
+  {
+    if(pCur->id == x)  //找到了匹配结点
+    {
+      break；
+    }
+    
+    //没找到匹配点继续遍历
+    pPre = pCur;
+    pCur = pCur->next;
+    
+    //遍历到最后会出现两种结果
+    //1；找到了匹配的结点，pCur为最后一个结点，pPre为倒数第二个结点
+    //2：没找到匹配的结点，pPre为最后一个结点，pCur指向空
+    
+    //给新结点动态分配空间
+    Node *pNew = (Node *)malloc(sizeof(Node));
+    if (pNew == NULL)
+    {
+      return -2; //遍历完了没有找到，则返回-2
+    }
+    
+    //给pNew的成员变量赋值
+    pNew->id = y;
+    pNew->next = NULL;
+    
+    //插入指定位置
+    pPre->next = pNew;
+    pNew->next = pCur;
+  }
+}
+```
+注：c++中经常会看到return 0，-1，-2，这个要看编辑者的意图，一般0表示正确结束，其他数字代表不同的错误  
